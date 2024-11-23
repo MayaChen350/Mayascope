@@ -8,7 +8,7 @@ import androidx.compose.ui.graphics.Color
 private val ColorScheme = darkColorScheme(
     background = DarkBg,
     surface = DarkBg,
-    onSurface = Color.White
+    onSurface = Color.White,
 )
 
 @Composable
