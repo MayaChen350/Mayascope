@@ -20,7 +20,7 @@ class MayascopeBackend(val context: Context) {
             val parsedPoem: List<String> = parseOnePoem(it[poemNumber])
             val lineNumber: Int = Random.nextInt(parsedPoem.count())
 
-            TodayMayascope(poemNumber, lineNumber, parsedPoem[lineNumber])
+            TodayMayascope(poemNumber + 1, lineNumber +1, parsedPoem[lineNumber])
         }.also {
             saveDailyData()
         }

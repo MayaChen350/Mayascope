@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -44,20 +45,21 @@ fun HomePage() {
     ) {
         Title()
         Spacer(Modifier.height(15.dp))
-        MayascopeLine(todayMayascopeResult.value, todayMayascopeResultNumbers.value)
-        MayascopeButton {
-
-            scope.launch {
-                if (todayMayascopeResult.value == "")
-                    MayascopeBackend(context).run {
-                        getMayascope().also {
-                            todayMayascopeResult.value = it.line
-                            todayMayascopeResultNumbers.value =
-                                "Maya" + it.poemNumber.toString() + ":" + it.lineNumber.toString()
+        if (todayMayascopeResult.value == "")
+            MayascopeButton {
+                scope.launch {
+                    if (todayMayascopeResult.value == "")
+                        MayascopeBackend(context).run {
+                            getMayascope().also {
+                                todayMayascopeResult.value = """"${it.line}""""
+                                todayMayascopeResultNumbers.value =
+                                    "— Maya ${it.poemNumber}:${it.lineNumber}"
+                            }
                         }
-                    }
+                }
             }
-        }
+        else
+            MayascopeLine(todayMayascopeResult.value, todayMayascopeResultNumbers.value)
     }
 }
 
@@ -99,8 +101,19 @@ fun MayascopeButton(action: () -> Unit) =
 
 @Composable
 fun MayascopeLine(line: String, linePoemNumber: String) =
-    Column {
-        Text(line)
-        Text(linePoemNumber)
+    Column(
+        modifier = Modifier.padding(horizontal = 5.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            line,
+            fontSize = 25.sp,
+            fontStyle = FontStyle.Italic,
+            textAlign = TextAlign.Center
+        )
+        Spacer(Modifier.height(20.dp))
+        Text(
+            linePoemNumber
+        )
     }
 
