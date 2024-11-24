@@ -13,17 +13,24 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        var poems = ""
+        resources.openRawResource(R.raw.poems).bufferedReader().run {
+            poems = readText()
+            close()
+        }
+
         setContent {
             MayascopeTheme {
-                Mayascope()
+                Mayascope(poems)
             }
         }
     }
 }
 
 @Composable
-fun Mayascope() {
+fun Mayascope(poems: String) {
     Surface {
-        HomePage()
+        HomePage(poems)
     }
 }

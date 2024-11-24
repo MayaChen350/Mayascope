@@ -11,6 +11,9 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,48 +22,80 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import io.github.mayachen350.mayascope.data.MayascopeBackend
 import io.github.mayachen350.mayascope.ui.theme.Kodchasan
+import kotlinx.coroutines.launch
 
 @Composable
-fun HomePage() {
+fun HomePage(poems: String) {
+    val todayMayascopeResult = remember { mutableStateOf("") }
+    val todayMayascopeResultNumbers = remember { mutableStateOf("") }
+
+    val scope = rememberCoroutineScope()
+
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxSize()
     ) {
-        Title(modifier = Modifier.padding(bottom = 0.dp))
+        Title()
         Spacer(Modifier.height(15.dp))
-        Button(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 70.dp),
-            content = {
-                Text(
-                    "Try",
-                    modifier = Modifier.padding(vertical = 3.dp),
-                    fontSize = 20.sp,
-                    textAlign = TextAlign.Center
-                )
-            },
-            colors = ButtonDefaults.buttonColors().copy(
-                containerColor = Color(0xFFCE5A5A),
-                contentColor = Color.White
-            ),
-            onClick = {
-                println("hello")
-            },
-        )
+        MayascopeLine(todayMayascopeResult.value,todayMayascopeResultNumbers.value)
+        MayascopeButton {
+            scope.launch {
+                if (todayMayascopeResult.value == "")
+                    MayascopeBackend(poems).run {
+                        val todayMayascope = getMayascope().also {
+                            todayMayascopeResult.value = it.line
+                            todayMayascopeResultNumbers.value =
+                                "Maya" + it.poemNumber.toString() + ":" + it.lineNumber.toString()
+                        }
+                    }
+            }
+        }
     }
 }
 
+
 @Composable
-fun Title(modifier: Modifier = Modifier) {
+fun Title() =
     Text(
         "MAYASCOPE",
-        modifier = modifier,
+        modifier = Modifier.padding(bottom = 0.dp),
         textAlign = TextAlign.Center,
         fontSize = 40.sp,
         fontFamily = FontFamily.Kodchasan,
         fontWeight = FontWeight.ExtraBold
     )
-}
+
+@Composable
+fun MayascopeButton(action: () -> Unit) =
+    Button(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 70.dp),
+        content = {
+            Text(
+                "Try",
+                modifier = Modifier.padding(vertical = 3.dp),
+                fontSize = 20.sp,
+                textAlign = TextAlign.Center
+            )
+        },
+        colors = ButtonDefaults.buttonColors().copy(
+            containerColor = Color(0xFFCE5A5A),
+            contentColor = Color.White
+        ),
+
+        onClick = {
+            action()
+        }
+    )
+
+@Composable
+fun MayascopeLine(line: String, linePoemNumber: String) =
+    Column {
+        Text(line)
+        Text(linePoemNumber)
+    }
+

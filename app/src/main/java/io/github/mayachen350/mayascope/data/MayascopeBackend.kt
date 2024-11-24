@@ -4,11 +4,11 @@ import kotlin.collections.filter
 import kotlin.random.Random
 import kotlin.text.trim
 
-class Mayascope(val poems: String) {
+data class TodayMayascope(val poemNumber: Int, val lineNumber: Int, val line: String)
 
-    data class TodayMayascope(val poemNumber: Int, val lineNumber: Int, val line: String)
+class MayascopeBackend(val poems: String) {
 
-    public fun getRandomLine(): TodayMayascope =
+    public suspend fun getMayascope(): TodayMayascope =
         parsePoems(poems)
             .let {
                 val poemNumber: Int = Random.nextInt(it.count())
@@ -20,12 +20,12 @@ class Mayascope(val poems: String) {
                 saveDailyData()
             }
 
-    private fun saveDailyData(): Unit {
+    private suspend fun saveDailyData(): Unit {
         // TODO
         println("Date should be saved now.")
     }
 
     private fun parsePoems(poems: String): List<String> = poems.split("///")
 
-    private fun parseOnePoem(poem: String): List<String> = poem.lines().filter { it.trim() == "" }
+    private fun parseOnePoem(poem: String): List<String> = poem.lines().filter { it.trim() != "" }
 }
