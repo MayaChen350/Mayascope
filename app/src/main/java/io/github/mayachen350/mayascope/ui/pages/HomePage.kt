@@ -63,7 +63,6 @@ fun HomePage() {
     }
 }
 
-
 @Composable
 fun Title() =
     Text(
@@ -83,7 +82,7 @@ fun MayascopeButton(action: () -> Unit) =
             .padding(horizontal = 70.dp),
         content = {
             Text(
-                "Try",
+                "Choose your fate",
                 modifier = Modifier.padding(vertical = 3.dp),
                 fontSize = 20.sp,
                 textAlign = TextAlign.Center
