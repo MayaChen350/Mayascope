@@ -1,5 +1,6 @@
 package io.github.mayachen350.mayascope.ui.pages
 
+import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -17,6 +18,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -27,11 +29,13 @@ import io.github.mayachen350.mayascope.ui.theme.Kodchasan
 import kotlinx.coroutines.launch
 
 @Composable
-fun HomePage(poems: String) {
+fun HomePage() {
     val todayMayascopeResult = remember { mutableStateOf("") }
     val todayMayascopeResultNumbers = remember { mutableStateOf("") }
 
     val scope = rememberCoroutineScope()
+
+    val context: Context = LocalContext.current
 
     Column(
         verticalArrangement = Arrangement.Center,
@@ -40,12 +44,13 @@ fun HomePage(poems: String) {
     ) {
         Title()
         Spacer(Modifier.height(15.dp))
-        MayascopeLine(todayMayascopeResult.value,todayMayascopeResultNumbers.value)
+        MayascopeLine(todayMayascopeResult.value, todayMayascopeResultNumbers.value)
         MayascopeButton {
+
             scope.launch {
                 if (todayMayascopeResult.value == "")
-                    MayascopeBackend(poems).run {
-                        val todayMayascope = getMayascope().also {
+                    MayascopeBackend(context).run {
+                        getMayascope().also {
                             todayMayascopeResult.value = it.line
                             todayMayascopeResultNumbers.value =
                                 "Maya" + it.poemNumber.toString() + ":" + it.lineNumber.toString()
