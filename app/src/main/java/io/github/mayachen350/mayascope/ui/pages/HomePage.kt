@@ -12,6 +12,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -25,9 +27,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import io.github.mayachen350.mayascope.data.LINE_AND_POEM_NUMBER
+import io.github.mayachen350.mayascope.data.LINE_OF_TODAY
 import io.github.mayachen350.mayascope.data.MayascopeBackend
+import io.github.mayachen350.mayascope.data.RECORDED_DAY
+import io.github.mayachen350.mayascope.data.dataStore
 import io.github.mayachen350.mayascope.ui.theme.Kodchasan
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 
 @Composable
 fun HomePage() {
@@ -37,6 +45,15 @@ fun HomePage() {
     val scope = rememberCoroutineScope()
 
     val context: Context = LocalContext.current
+    var lastRecordDay = remember { mutableIntStateOf(-1) }
+    var lastPoemLine = remember { mutableStateOf("") }
+    var lastLinePoemNumber = remember { mutableStateOf("") }
+
+    LaunchedEffect(todayMayascopeResult.value) {
+        lastRecordDay.intValue = context.dataStore.data.first()[RECORDED_DAY] ?: -1
+        lastPoemLine.value = context.dataStore.data.first()[LINE_OF_TODAY] ?: ""
+        lastLinePoemNumber.value = context.dataStore.data.first()[LINE_AND_POEM_NUMBER] ?: ""
+    }
 
     Column(
         verticalArrangement = Arrangement.Center,
@@ -45,21 +62,21 @@ fun HomePage() {
     ) {
         Title()
         Spacer(Modifier.height(15.dp))
-        if (todayMayascopeResult.value == "")
+        if (todayMayascopeResult.value == "" && lastRecordDay.intValue != LocalDateTime.now().dayOfYear)
             MayascopeButton {
                 scope.launch {
                     if (todayMayascopeResult.value == "")
                         MayascopeBackend(context).run {
                             getMayascope().also {
                                 todayMayascopeResult.value = """"${it.line}""""
-                                todayMayascopeResultNumbers.value =
-                                    "— Maya ${it.poemNumber}:${it.lineNumber}"
+                                todayMayascopeResultNumbers.value = it.formatPoemLineNumber()
                             }
                         }
                 }
             }
-        else
-            MayascopeLine(todayMayascopeResult.value, todayMayascopeResultNumbers.value)
+         else {
+            MayascopeLine(""""${lastPoemLine.value}"""", lastLinePoemNumber.value)
+        }
     }
 }
 
