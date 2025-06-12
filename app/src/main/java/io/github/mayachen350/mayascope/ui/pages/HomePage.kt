@@ -13,10 +13,12 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,27 +35,24 @@ import io.github.mayachen350.mayascope.data.MayascopeBackend
 import io.github.mayachen350.mayascope.data.RECORDED_DAY
 import io.github.mayachen350.mayascope.data.dataStore
 import io.github.mayachen350.mayascope.ui.theme.Kodchasan
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 
 /** TODO: Secret access to the `poems.txt` when the total days of mayascope has reached **30**.*/
 @Composable
 fun HomePage() {
-    val todayMayascopeResult = remember { mutableStateOf("") }
-    val todayMayascopeResultNumbers = remember { mutableStateOf("") }
-
     val scope = rememberCoroutineScope()
-
     val context: Context = LocalContext.current
-    var lastRecordDay = remember { mutableIntStateOf(-1) }
-    var lastPoemLine = remember { mutableStateOf("") }
-    var lastLinePoemNumber = remember { mutableStateOf("") }
 
-    LaunchedEffect(todayMayascopeResult.value) {
-        lastRecordDay.intValue = context.dataStore.data.first()[RECORDED_DAY] ?: -1
-        lastPoemLine.value = context.dataStore.data.first()[LINE_OF_TODAY] ?: ""
-        lastLinePoemNumber.value = context.dataStore.data.first()[LINE_AND_POEM_NUMBER] ?: ""
+    var lastRecordDay by remember { mutableIntStateOf(-1) }
+    var lastPoemLine by remember { mutableStateOf("") }
+    var lastLinePoemNumber by remember { mutableStateOf("") }
+
+    LaunchedEffect(true) {
+        lastRecordDay = context.dataStore.data.firstOrNull()?.get(RECORDED_DAY) ?: -1
+        lastPoemLine = context.dataStore.data.firstOrNull()?.get(LINE_OF_TODAY) ?: ""
+        lastLinePoemNumber = context.dataStore.data.firstOrNull()?.get(LINE_AND_POEM_NUMBER) ?: ""
     }
 
     Column(
@@ -63,20 +62,18 @@ fun HomePage() {
     ) {
         Title()
         Spacer(Modifier.height(15.dp))
-        if (todayMayascopeResult.value == "" && lastRecordDay.intValue != LocalDateTime.now().dayOfYear)
+        if (lastPoemLine == "" && lastRecordDay != LocalDateTime.now().dayOfYear)
             MayascopeButton {
                 scope.launch {
-                    if (todayMayascopeResult.value == "")
-                        MayascopeBackend(context).run {
-                            getMayascope().also {
-                                todayMayascopeResult.value = """"${it.line}""""
-                                todayMayascopeResultNumbers.value = it.formatPoemLineNumber()
-                            }
+                    if (lastPoemLine == "")
+                        with(MayascopeBackend(context).getMayascope()) {
+                            lastPoemLine = "\"$line\""
+                            lastLinePoemNumber = formatPoemLineNumber()
                         }
                 }
             }
-         else {
-            MayascopeLine(""""${lastPoemLine.value}"""", lastLinePoemNumber.value)
+        else {
+            MayascopeLine("\"$lastPoemLine\"", lastLinePoemNumber)
         }
     }
 }
@@ -100,7 +97,7 @@ fun MayascopeButton(action: () -> Unit) =
             .padding(horizontal = 70.dp),
         content = {
             Text(
-                "Choose your fate",
+                "Try your fate",
                 modifier = Modifier.padding(vertical = 3.dp),
                 fontSize = 20.sp,
                 textAlign = TextAlign.Center

@@ -15,9 +15,8 @@ import kotlin.text.trim
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
-data class TodayMayascope(val poemNumber: Int, val lineNumber: Int, val line: String)
-{
-    fun formatPoemLineNumber(): String =  "— Maya ${poemNumber}:${lineNumber}"
+data class TodayMayascope(val poemNumber: Int, val lineNumber: Int, val line: String) {
+    fun formatPoemLineNumber(): String = "— Maya ${poemNumber}:${lineNumber}"
 }
 
 val RECORDED_DAY = intPreferencesKey("recorded_day")
@@ -28,17 +27,15 @@ val TOTAL_DAYS_USING_THE_MAYASCOPE = intPreferencesKey("total_days_mayascope")
 
 class MayascopeBackend(val context: Context) {
 
-    public suspend fun getMayascope(): TodayMayascope =
-        parsePoems(context.resources.openRawResource(R.raw.poems).bufferedReader().run {
-            val poems = readText()
-            close()
-            poems
-        }).let {
-            val poemNumber: Int = Random.nextInt(it.count())
-            val parsedPoem: List<String> = parseOnePoem(it[poemNumber])
-            val lineNumber: Int = Random.nextInt(parsedPoem.count())
+    suspend fun getMayascope(): TodayMayascope =
+        parsePoems(context.resources.openRawResource(R.raw.poems)
+            .bufferedReader().use { it.readText() }
+        ).let { poems: List<String> ->
+            val poemIndex: Int = Random.nextInt(poems.count())
+            val parsedPoemLines: List<String> = parseOnePoem(poems[poemIndex])
+            val lineIndex: Int = Random.nextInt(parsedPoemLines.count())
 
-            TodayMayascope(poemNumber + 1, lineNumber +1, parsedPoem[lineNumber])
+            TodayMayascope(poemIndex + 1, lineIndex + 1, parsedPoemLines[lineIndex])
         }.also {
             saveDailyData(it)
         }
@@ -54,6 +51,6 @@ class MayascopeBackend(val context: Context) {
 
     private fun parsePoems(poems: String): List<String> = poems.split("///")
 
-    private fun parseOnePoem(poem: String): List<String> =
-        poem.lines().filter { it.trim() != "" }
+    private fun parseOnePoem(poem: String): List<String> = poem.lines()
+        .filter { it.trim() != "" }
 }
