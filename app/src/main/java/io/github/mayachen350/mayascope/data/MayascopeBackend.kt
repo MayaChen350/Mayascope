@@ -24,6 +24,8 @@ val RECORDED_DAY = intPreferencesKey("recorded_day")
 val LINE_OF_TODAY = stringPreferencesKey("line_of_today")
 val LINE_AND_POEM_NUMBER = stringPreferencesKey("line_and_poem_number")
 
+val TOTAL_DAYS_USING_THE_MAYASCOPE = intPreferencesKey("total_days_mayascope")
+
 class MayascopeBackend(val context: Context) {
 
     public suspend fun getMayascope(): TodayMayascope =
@@ -46,6 +48,7 @@ class MayascopeBackend(val context: Context) {
             it[RECORDED_DAY] = LocalDateTime.now().dayOfYear
             it[LINE_OF_TODAY] = mayascope.line
             it[LINE_AND_POEM_NUMBER] = mayascope.formatPoemLineNumber()
+            it[TOTAL_DAYS_USING_THE_MAYASCOPE] = it[TOTAL_DAYS_USING_THE_MAYASCOPE]?.plus(1) ?: 1
         }
     }
 

@@ -37,6 +37,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 
+/** TODO: Secret access to the `poems.txt` when the total days of mayascope has reached **30**.*/
 @Composable
 fun HomePage() {
     val todayMayascopeResult = remember { mutableStateOf("") }
