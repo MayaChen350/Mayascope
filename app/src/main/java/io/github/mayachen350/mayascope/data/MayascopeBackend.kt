@@ -52,5 +52,6 @@ class MayascopeBackend(val context: Context) {
     private fun parsePoems(poems: String): List<String> = poems.split("///")
 
     private fun parseOnePoem(poem: String): List<String> = poem.lines()
-        .filter { it.trim() != "" }
+        .map { it.trim() }
+        .filter { it != "" }
 }
