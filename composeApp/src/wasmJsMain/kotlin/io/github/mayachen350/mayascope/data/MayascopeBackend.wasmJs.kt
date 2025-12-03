@@ -17,6 +17,13 @@ import kotlin.time.Duration.Companion.days
 import kotlin.time.ExperimentalTime
 
 /**
+ * Cookie Separator
+ *
+ * If I ever write "UwU" in a poem please ask me to delete it. Thank you.
+ */
+internal const val cs: String = "UwU"
+
+/**
  * Order: lastRecordDay, lastPoemLine, lastLinePoemNumber
  */
 @OptIn(ExperimentalTime::class)
@@ -28,7 +35,7 @@ fun TodayMayascope.getCookie(): String {
         rightNow.toLocalDateTime(
             TimeZone.currentSystemDefault()
         ).dayOfYear
-    },$line,${formatPoemLineNumber()}; expires=${
+    }$cs$line$cs${formatPoemLineNumber()}; expires=${
         rightNow.plus(1.days).toLocalDateTime(TimeZone.currentSystemDefault()).run {
             "${
                 dayOfWeek.name.take(3).lowercase().capitalize(Locale.current)

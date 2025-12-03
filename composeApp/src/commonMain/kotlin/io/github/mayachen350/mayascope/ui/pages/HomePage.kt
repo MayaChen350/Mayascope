@@ -19,8 +19,13 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Constraints
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.em
+import androidx.compose.ui.unit.isSpecified
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.times
 import io.github.mayachen350.mayascope.ui.theme.Kodchasan
 import kotlinx.coroutines.launch
 import kotlinx.datetime.TimeZone
@@ -70,7 +75,7 @@ fun Title() =
         "MAYASCOPE",
         modifier = Modifier.padding(bottom = 0.dp),
         textAlign = TextAlign.Center,
-        fontSize = 40.sp,
+        fontSize = 45.sp,
         fontFamily = FontFamily.Kodchasan,
     )
 
@@ -78,13 +83,13 @@ fun Title() =
 fun MayascopeButton(action: () -> Unit) =
     Button(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 70.dp),
+            .fillMaxWidth(0.65f),
+//            .padding(horizontal = 70.dp)
         content = {
             Text(
                 "Try your fate",
                 modifier = Modifier.padding(vertical = 3.dp),
-                fontSize = 20.sp,
+                fontSize = 25.sp,
                 textAlign = TextAlign.Center
             )
         },
@@ -106,13 +111,15 @@ fun MayascopeLine(line: String, linePoemNumber: String) =
     ) {
         Text(
             line,
-            fontSize = 25.sp,
+            fontSize = 30.sp,
             fontStyle = FontStyle.Italic,
+            lineHeight = 35.sp,
             textAlign = TextAlign.Center
         )
-        Spacer(Modifier.height(20.dp))
+        Spacer(Modifier.height(25.dp))
         Text(
-            linePoemNumber
+            linePoemNumber,
+            fontSize = 25.sp
         )
     }
 

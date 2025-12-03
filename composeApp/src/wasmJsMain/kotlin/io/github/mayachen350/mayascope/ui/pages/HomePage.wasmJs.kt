@@ -8,6 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import io.github.mayachen350.mayascope.data.MayascopeBackend
+import io.github.mayachen350.mayascope.data.cs
 import io.github.mayachen350.mayascope.data.saveDailyData
 import kotlinx.browser.document
 
@@ -19,12 +20,10 @@ actual fun HomePageHaver() {
 
     LaunchedEffect(true) {
         val cookieContent = document.cookie.substringAfter("=")
-            .split(";")
-            .getOrNull(0)
-            ?.split(",")
-        lastRecordDay = cookieContent?.getOrNull(0)?.toIntOrNull() ?: 0
-        lastPoemLine = cookieContent?.getOrNull(1) ?: ""
-        lastLinePoemNumber = cookieContent?.getOrNull(2) ?: ""
+            .split(cs)
+        lastRecordDay = cookieContent.getOrNull(0)?.toIntOrNull() ?: 0
+        lastPoemLine = cookieContent.getOrNull(1) ?: ""
+        lastLinePoemNumber = cookieContent.getOrNull(2) ?: ""
     }
 
     HomePage(lastRecordDay, lastPoemLine, lastLinePoemNumber, buttonAction = {
