@@ -50,7 +50,6 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
-            implementation(libs.androidx.ui.text.google.fonts)
             implementation(libs.kotlinx.datetime)
         }
         commonTest.dependencies {
@@ -67,7 +66,7 @@ android {
         applicationId = "io.github.mayachen350.mayascope"
         minSdk = 26
         targetSdk = 34
-        versionCode = 2
+        versionCode = 3
         versionName = "2025.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
