@@ -1,4 +1,3 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -33,7 +32,15 @@ kotlin {
             implementation(libs.androidx.activity.compose)
             implementation(libs.androidx.ui)
             implementation(libs.androidx.datastore.preferences)
+
         }
+//        androidUnitTest.dependencies {
+//            testImplementation(libs.junit)
+//            androidTestImplementation(libs.androidx.junit)
+//            androidTestImplementation(libs.androidx.espresso.core)
+//            androidTestImplementation(platform(libs.androidx.compose.bom))
+//            androidTestImplementation(libs.androidx.ui.test.junit4)
+//        }
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -67,6 +74,10 @@ android {
     }
 
     buildTypes {
+        debug {
+            applicationIdSuffix = ".debug"
+            isDebuggable = true
+        }
         release {
             isMinifyEnabled = true
             proguardFiles(

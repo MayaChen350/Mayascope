@@ -1,28 +1,20 @@
+package io.github.mayachen350.mayascope
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
-import io.github.mayachen350.mayascope.ui.pages.HomePage
-import io.github.mayachen350.mayascope.ui.theme.MayascopeTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        enableEdgeToEdge()
+        enableEdgeToEdge(
+//            SystemBarStyle.auto(Color.TRANSPARENT, Color.TRANSPARENT),
+//            SystemBarStyle.auto(Color.TRANSPARENT, Color.TRANSPARENT)
+        )
         super.onCreate(savedInstanceState)
 
         setContent {
-            MayascopeTheme {
-                Mayascope()
-            }
+            App()
         }
-    }
-}
-
-@Composable
-fun Mayascope() {
-    Surface {
-        HomePage()
     }
 }

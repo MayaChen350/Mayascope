@@ -1,27 +1,26 @@
 package io.github.mayachen350.mayascope.ui.theme
 
 import androidx.compose.material3.Typography
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.googlefonts.Font
-import androidx.compose.ui.text.googlefonts.GoogleFont
 import androidx.compose.ui.unit.sp
-import io.github.mayachen350.mayascope.R
+import mayascope.composeapp.generated.resources.Kodchasan_Bold
+import mayascope.composeapp.generated.resources.Kodchasan_SemiBold
+import mayascope.composeapp.generated.resources.Res
+import org.jetbrains.compose.resources.Font
+import org.jetbrains.compose.resources.FontResource
 
-val provider = GoogleFont.Provider(
-    providerAuthority = "com.google.android.gms.fonts",
-    providerPackage = "com.google.android.gms",
-    certificates = R.array.com_google_android_gms_fonts_certs
-)
 
-val FontFamily.Companion.Kodchasan
+val FontFamily.Companion.Kodchasan: FontFamily
+    @Composable
     get() = FontFamily(
         Font(
-            googleFont = GoogleFont("Kodchasan"),
-            fontProvider = provider,
+            Res.font.Kodchasan_SemiBold
         )
     )
+
 
 // Set of Material typography styles to start with
 val Typography = Typography(
