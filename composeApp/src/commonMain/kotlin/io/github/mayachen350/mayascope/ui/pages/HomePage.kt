@@ -52,15 +52,14 @@ fun HomePage(
     ) {
         Title()
         Spacer(Modifier.height(15.dp))
-        if (lastPoemLine == "" && lastRecordDay != Clock.System.now()
+        if (lastPoemLine == "" || lastRecordDay != Clock.System.now()
                 .toLocalDateTime(
                     TimeZone.currentSystemDefault()
                 ).dayOfYear
         )
             MayascopeButton {
                 scope.launch {
-                    if (lastPoemLine == "")
-                        buttonAction()
+                    buttonAction()
                 }
             }
         else {
