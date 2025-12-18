@@ -15,11 +15,6 @@ kotlin {
         }
     }
 
-    js {
-        browser()
-        binaries.executable()
-    }
-
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         browser()
@@ -74,6 +69,7 @@ android {
 
     buildTypes {
         debug {
+            versionNameSuffix = "-DEBUG"
             applicationIdSuffix = ".debug"
             isDebuggable = true
         }
@@ -88,11 +84,6 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
         }
     }
     compileOptions {

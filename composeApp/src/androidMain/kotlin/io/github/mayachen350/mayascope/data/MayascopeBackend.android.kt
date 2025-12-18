@@ -17,7 +17,7 @@ val LINE_AND_POEM_NUMBER = stringPreferencesKey("line_and_poem_number")
 
 val TOTAL_DAYS_USING_THE_MAYASCOPE = intPreferencesKey("total_days_mayascope")
 
-suspend fun saveDailyData(context: Context, mayascope: TodayMayascope) {
+suspend inline fun saveDailyData(context: Context, mayascope: TodayMayascope) {
     context.dataStore.edit {
         it[RECORDED_DAY] = LocalDateTime.now().dayOfYear
         it[LINE_OF_TODAY] = mayascope.line

@@ -7,8 +7,7 @@ data class TodayMayascope(val poemNumber: Int, val lineNumber: Int, val line: St
     fun formatPoemLineNumber(): String = "— Maya ${poemNumber}:${lineNumber}"
 }
 
-class MayascopeBackend() {
-
+object MayascopeBackend {
     suspend fun getNewMayascope(): TodayMayascope =
         parsePoems(
             Res.readBytes("files/poems.txt").decodeToString()
@@ -28,3 +27,5 @@ class MayascopeBackend() {
         .filter { it != "" }
         .map { it.trim('"').trim() }
 }
+
+//typealias SaveDataFunc = suspend (TodayMayascope) -> Unit
