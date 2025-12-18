@@ -36,7 +36,7 @@ actual fun HomePageHaver() {
     val today by lazy { LocalDateTime.now().dayOfYear }
 
     HomePage(lastPoemLine, lastLinePoemNumber, buttonAppearCond = {
-        lastPoemLine.value == "" || lastRecordDay.intValue == today
+        lastPoemLine.value == "" || lastRecordDay.intValue != today
     }, saveDataFunc = {
         lastRecordDay.intValue = today // Necessary line so the line can appear
         saveDailyData(context, it)
