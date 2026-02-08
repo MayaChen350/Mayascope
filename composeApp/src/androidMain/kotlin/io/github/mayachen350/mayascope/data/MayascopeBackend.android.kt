@@ -10,7 +10,6 @@ import androidx.datastore.preferences.preferencesDataStore
 import java.time.LocalDateTime
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
-
 val RECORDED_DAY = intPreferencesKey("recorded_day")
 val LINE_OF_TODAY = stringPreferencesKey("line_of_today")
 val LINE_AND_POEM_NUMBER = stringPreferencesKey("line_and_poem_number")
