@@ -15,10 +15,10 @@
       </SelectionState>
       <SelectionState runConfigName="composeApp">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-12-03T00:32:40.030630588Z">
+        <DropdownSelection timestamp="2026-02-24T01:55:43.042729001Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=/home/mayachen/.android/avd/Pixel_8.avd" />
+              <DeviceId pluginId="PhysicalDevice" identifier="serial=RFCW21TMBQK" />
             </handle>
           </Target>
         </DropdownSelection>
