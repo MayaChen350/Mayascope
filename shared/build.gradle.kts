@@ -1,11 +1,13 @@
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.net.URL
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidMultiplatformLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    idea
 }
 
 kotlin {
@@ -41,15 +43,19 @@ kotlin {
             implementation(libs.androidx.ui)
             implementation(libs.androidx.datastore.preferences)
         }
-        commonMain.dependencies {
-            implementation(libs.runtime)
-            implementation(libs.foundation)
-            implementation(libs.material3)
-            implementation(libs.ui)
-            implementation(libs.components.resources)
-            implementation(libs.androidx.lifecycle.viewmodelCompose)
-            implementation(libs.androidx.lifecycle.runtimeCompose)
-            implementation(libs.kotlinx.datetime)
+        commonMain {
+            kotlin.srcDir(layout.buildDirectory.dir("generated/static/kotlin"))
+
+            dependencies {
+                implementation(libs.runtime)
+                implementation(libs.foundation)
+                implementation(libs.material3)
+                implementation(libs.ui)
+                implementation(libs.components.resources)
+                implementation(libs.androidx.lifecycle.viewmodelCompose)
+                implementation(libs.androidx.lifecycle.runtimeCompose)
+                implementation(libs.kotlinx.datetime)
+            }
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -59,4 +65,53 @@ kotlin {
 
 dependencies {
     androidRuntimeClasspath(libs.androidx.uiTooling)
+}
+
+val generatePoems by tasks.registering {
+    val outputDir = layout.buildDirectory.dir("generated/static/kotlin")
+    outputs.dir(outputDir) // Mark as task output for caching
+
+    fun parseOnePoem(poem: String): List<String> = poem.lines()
+        .map { it.trim() }
+        .filter {
+            it != "" && !it.lowercase().startsWith("title") && !it.lowercase().startsWith("date")
+        }
+        .map { it.trim('"').trim() }
+
+    doLast {
+        val outputFile = outputDir.get().file("poems.kt").asFile
+        outputFile.parentFile.mkdirs()
+        outputFile.writeText(
+            """
+            package io.github.mayachen350.mayascope.data
+            
+            val poemsArrays = arrayOf(${
+                run {
+                    @Suppress("DEPRECATION") val poemFileContent =
+                        URL(
+                            "https://raw.githubusercontent.com/MayaChen350/MayaChen350/" +
+                                    "refs/heads/main/.extras/poems.txt"
+                        ).readText()
+                            .split("///")
+                    poemFileContent.joinToString { poem ->
+                        "arrayOf(${parseOnePoem(poem).joinToString { "\"\"\"$it\"\"\"" }})"
+                    }
+                }
+            })
+        """.trimIndent()
+        )
+    }
+}
+
+idea {
+    module {
+        // Marks the directory as "Generated" in the IDE project structure
+        generatedSourceDirs.add(
+            layout.buildDirectory.dir("generated/static/kotlin").get().asFile
+        )
+    }
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+    dependsOn(generatePoems)
 }
