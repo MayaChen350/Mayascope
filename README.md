@@ -41,7 +41,12 @@ I could go on and on about why I do this but let's just say I wish them to stay 
 
 ## Your *own* Mayascope ✨️
 
-I said earlier to not try to add poems. But you can still fork the repository if you want! If you change the content in poems.txt you could already have your own thing.
+I said earlier to not try to add poems. But you can still fork the repository if you want! 
+
+I made a tag to start from for easiness. You can start from there if you prefer.  
+https://github.com/MayaChen350/Mayascope/blob/hasPoemsTxt  
+
+If you change the content in poems.txt you could already have your own thing.
 
 Basically, feel free to fork the repository, take code, etc, and also ask me questions about it on Discord.
 
