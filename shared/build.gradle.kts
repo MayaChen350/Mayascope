@@ -3,16 +3,22 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.androidMultiplatformLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
 }
 
 kotlin {
-    androidTarget {
+    androidLibrary {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
         }
+
+        namespace = "io.github.mayachen350.mayascope.shared"
+        compileSdk = 36
+        minSdk = 26
+
+        androidResources.enable = true
     }
 
     @OptIn(ExperimentalWasmDsl::class)
@@ -22,13 +28,6 @@ kotlin {
     }
 
     sourceSets {
-        androidMain.dependencies {
-            implementation(libs.ui.tooling.preview)
-            implementation(libs.androidx.activity.compose)
-            implementation(libs.androidx.ui)
-            implementation(libs.androidx.datastore.preferences)
-
-        }
 //        androidUnitTest.dependencies {
 //            testImplementation(libs.junit)
 //            androidTestImplementation(libs.androidx.junit)
@@ -36,13 +35,18 @@ kotlin {
 //            androidTestImplementation(platform(libs.androidx.compose.bom))
 //            androidTestImplementation(libs.androidx.ui.test.junit4)
 //        }
+        androidMain.dependencies {
+            implementation(libs.ui.tooling.preview)
+            implementation(libs.androidx.activity.compose)
+            implementation(libs.androidx.ui)
+            implementation(libs.androidx.datastore.preferences)
+        }
         commonMain.dependencies {
             implementation(libs.runtime)
             implementation(libs.foundation)
             implementation(libs.material3)
             implementation(libs.ui)
             implementation(libs.components.resources)
-            implementation(libs.ui.tooling.preview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation(libs.kotlinx.datetime)
@@ -53,45 +57,6 @@ kotlin {
     }
 }
 
-android {
-    namespace = "io.github.mayachen350.mayascope"
-    compileSdk = 36
-
-    defaultConfig {
-        applicationId = "io.github.mayachen350.mayascope"
-        minSdk = 26
-        targetSdk = 34
-        versionCode = 6
-        versionName = "2026.2"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    buildTypes {
-        debug {
-            versionNameSuffix = "-DEBUG"
-            applicationIdSuffix = ".debug"
-            isDebuggable = true
-        }
-        release {
-            isMinifyEnabled = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-}
-
 dependencies {
-    debugImplementation(compose.uiTooling)
+    androidRuntimeClasspath(libs.androidx.uiTooling)
 }

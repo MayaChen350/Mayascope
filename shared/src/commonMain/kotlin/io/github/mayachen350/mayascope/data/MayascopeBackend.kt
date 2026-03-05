@@ -1,6 +1,6 @@
 package io.github.mayachen350.mayascope.data
 
-import mayascope.composeapp.generated.resources.Res
+import mayascope.shared.generated.resources.Res
 import kotlin.random.Random
 
 data class TodayMayascope(val poemNumber: Int, val lineNumber: Int, val line: String) {
