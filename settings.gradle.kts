@@ -27,5 +27,5 @@ dependencyResolutionManagement {
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 rootProject.name = "Mayascope"
-include(":composeApp")
- 
+include(":shared")
+include(":androidApp")
