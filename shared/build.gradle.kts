@@ -10,63 +10,6 @@ plugins {
     idea
 }
 
-kotlin {
-    androidLibrary {
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
-        }
-
-        namespace = "io.github.mayachen350.mayascope.shared"
-        compileSdk = 36
-        minSdk = 26
-
-        androidResources.enable = true
-    }
-
-    @OptIn(ExperimentalWasmDsl::class)
-    wasmJs {
-        browser()
-        binaries.executable()
-    }
-
-    sourceSets {
-//        androidUnitTest.dependencies {
-//            testImplementation(libs.junit)
-//            androidTestImplementation(libs.androidx.junit)
-//            androidTestImplementation(libs.androidx.espresso.core)
-//            androidTestImplementation(platform(libs.androidx.compose.bom))
-//            androidTestImplementation(libs.androidx.ui.test.junit4)
-//        }
-        androidMain.dependencies {
-            implementation(libs.ui.tooling.preview)
-            implementation(libs.androidx.activity.compose)
-            implementation(libs.androidx.ui)
-            implementation(libs.androidx.datastore.preferences)
-        }
-        commonMain {
-            kotlin.srcDir(layout.buildDirectory.dir("generated/static/kotlin"))
-
-            dependencies {
-                implementation(libs.runtime)
-                implementation(libs.foundation)
-                implementation(libs.material3)
-                implementation(libs.ui)
-                implementation(libs.components.resources)
-                implementation(libs.androidx.lifecycle.viewmodelCompose)
-                implementation(libs.androidx.lifecycle.runtimeCompose)
-                implementation(libs.kotlinx.datetime)
-            }
-        }
-        commonTest.dependencies {
-            implementation(libs.kotlin.test)
-        }
-    }
-}
-
-dependencies {
-    androidRuntimeClasspath(libs.androidx.uiTooling)
-}
-
 val generatePoems by tasks.registering {
     val outputDir = layout.buildDirectory.dir("generated/static/kotlin")
     outputs.dir(outputDir) // Mark as task output for caching
@@ -103,6 +46,63 @@ val generatePoems by tasks.registering {
     }
 }
 
+kotlin {
+    androidLibrary {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_11)
+        }
+
+        namespace = "io.github.mayachen350.mayascope.shared"
+        compileSdk = 36
+        minSdk = 26
+
+        androidResources.enable = true
+    }
+
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        browser()
+        binaries.executable()
+    }
+
+    sourceSets {
+//        androidUnitTest.dependencies {
+//            testImplementation(libs.junit)
+//            androidTestImplementation(libs.androidx.junit)
+//            androidTestImplementation(libs.androidx.espresso.core)
+//            androidTestImplementation(platform(libs.androidx.compose.bom))
+//            androidTestImplementation(libs.androidx.ui.test.junit4)
+//        }
+        androidMain.dependencies {
+            implementation(libs.ui.tooling.preview)
+            implementation(libs.androidx.activity.compose)
+            implementation(libs.androidx.ui)
+            implementation(libs.androidx.datastore.preferences)
+        }
+        commonMain {
+            kotlin.srcDir(tasks.named(generatePoems.name))
+
+            dependencies {
+                implementation(libs.runtime)
+                implementation(libs.foundation)
+                implementation(libs.material3)
+                implementation(libs.ui)
+                implementation(libs.components.resources)
+                implementation(libs.androidx.lifecycle.viewmodelCompose)
+                implementation(libs.androidx.lifecycle.runtimeCompose)
+                implementation(libs.kotlinx.datetime)
+            }
+        }
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
+        }
+    }
+}
+
+dependencies {
+    androidRuntimeClasspath(libs.androidx.uiTooling)
+}
+
 idea {
     module {
         // Marks the directory as "Generated" in the IDE project structure
@@ -110,8 +110,4 @@ idea {
             layout.buildDirectory.dir("generated/static/kotlin").get().asFile
         )
     }
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-    dependsOn(generatePoems)
 }
