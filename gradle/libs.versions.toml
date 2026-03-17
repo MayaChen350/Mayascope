@@ -1,17 +1,16 @@
 [versions]
 agp = "9.0.1"
-androidx-activity = "1.12.4"
+androidx-activity = "1.13.0"
 androidx-lifecycle = "2.9.6"
-componentsResources = "1.10.1"
-composeMultiplatform = "1.10.1"
-foundation = "1.10.1"
-kotlin = "2.3.10"
-datastorePreferences = "1.2.0"
+componentsResources = "1.10.2"
+composeMultiplatform = "1.10.2"
+foundation = "1.10.2"
+kotlin = "2.3.20"
+datastorePreferences = "1.2.1"
 kotlinxDatetime = "0.7.1"
 material3 = "1.9.0"
-runtime = "1.10.1"
-ui = "1.10.1"
-uiToolingPreview = "1.10.1"
+runtime = "1.10.2"
+ui = "1.10.2"
 
 [libraries]
 components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "componentsResources" }
@@ -27,12 +26,11 @@ kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.
 material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "material3" }
 runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "runtime" }
 ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "ui" }
-ui-tooling-preview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "uiToolingPreview" }
+ui-tooling-preview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "ui" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidMultiplatformLibrary = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
-androidBuiltInKotlin = { id = "com.android.built-in-kotlin", version.ref = "agp" }
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }

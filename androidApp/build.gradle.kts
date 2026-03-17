@@ -19,8 +19,8 @@ android {
         applicationId = "io.github.mayachen350.mayascope"
         minSdk = 26
         targetSdk = 36
-        versionCode = 6
-        versionName = "2026.2"
+        versionCode = 7
+        versionName = "2026.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
