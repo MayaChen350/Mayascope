@@ -57,3 +57,16 @@ Most of the stuff the Mayascope reveals isn't really happy and lines it gets out
 **Please stop using the Mayascope immediately if it starts affecting you badly mentally.**
 
 Please stay safe <3
+
+## Licensing
+
+**Code:**  
+All source code, build files, and configuration files in this repository are licensed under the [MIT License](LICENSE).
+
+**Poems from Generated Sources:**  
+All poems from the generated content that may appear when you use this repository, unless otherwise stated, are my original work, and licensed under [Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/).
+
+- **You may** share or adapt my poems for non-commercial purposes, as long as you give me appropriate credit (**Maya Chénier**).
+- **You may not** use my poems for any commercial purpose without my explicit permission.
+
+For any commercial licensing inquiries, please contact me: maychennn@protonmail.com
