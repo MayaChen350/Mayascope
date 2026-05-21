@@ -13,7 +13,7 @@ dependencies {
 
 android {
     namespace = "io.github.mayachen350.mayascope"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "io.github.mayachen350.mayascope"
@@ -33,6 +33,7 @@ android {
         }
         release {
             isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
