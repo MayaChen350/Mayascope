@@ -1,16 +1,16 @@
 [versions]
-agp = "9.0.1"
+agp = "9.3.1"
 androidx-activity = "1.13.0"
-androidx-lifecycle = "2.9.6"
-componentsResources = "1.10.2"
-composeMultiplatform = "1.10.2"
-foundation = "1.10.2"
-kotlin = "2.3.20"
+androidx-lifecycle = "2.11.0"
+componentsResources = "1.11.1"
+composeMultiplatform = "1.11.1"
+foundation = "1.11.1"
+kotlin = "2.4.10"
 datastorePreferences = "1.2.1"
-kotlinxDatetime = "0.7.1"
+kotlinxDatetime = "0.8.0"
 material3 = "1.9.0"
-runtime = "1.10.2"
-ui = "1.10.2"
+runtime = "1.11.1"
+ui = "1.11.1"
 
 [libraries]
 components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "componentsResources" }

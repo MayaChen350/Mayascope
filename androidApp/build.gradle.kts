@@ -8,19 +8,18 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.ui)
     implementation(projects.shared)
-    debugImplementation(libs.ui.tooling.preview)
 }
 
 android {
     namespace = "io.github.mayachen350.mayascope"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "io.github.mayachen350.mayascope"
         minSdk = 26
         targetSdk = 36
-        versionCode = 7
-        versionName = "2026.3"
+        versionCode = 8
+        versionName = "2026.8"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -33,6 +32,7 @@ android {
         }
         release {
             isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
